@@ -1,11 +1,10 @@
 # PassThrough
 Passthrough Flow for Akka Streams
 
-Implementation a passthrough flow for Akka Streams.  It's common to have a stage in your Akka Streams flow that
-takes am effectful action in a context.  For example, you are processing a Kafka message then doing some data proecssing and then
-committing a Kafka offset. Since Akka Stream are built as pipelines that transform the data flowing, there is not a simple way
+It's common to have a stage in your Akka Streams flow that
+takes an effectful action in a context.  For example, you might 1) receive a Kafka message, 2) Do some data processing for it, 3) Commit a new Kafka offset. In Akka Streams pipelines that transform the flowing data, there usually isn't an elegant way 
 to pass along a 'context' or for example an offset to be committed. Also fan-out shapes like AlsoTo or Broadcast don't by themselves 
-do the trick becase you want to ensure the processing happens serially (i.e. affectfully process the message and only then commit the offset).
+do the trick becase you want to ensure the processing happens serially before later pipeline stages (i.e. affectfully process the message and only then commit the offset).
 
 ```text
         ------A => B ------
